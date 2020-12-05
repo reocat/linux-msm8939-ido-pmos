@@ -119,6 +119,10 @@
 	linux,code = <KEY_VOLUMEDOWN>;
 };
 
+&pm8916_vib {
+	status = "okay";
+};
+
 &pronto {
 	status = "okay";
 };
