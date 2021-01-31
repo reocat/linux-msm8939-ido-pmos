@@ -7,6 +7,7 @@ obj-$(CONFIG_DRM_PANEL_BOE_450) += panel-boe-450.o
 obj-$(CONFIG_DRM_PANEL_BOE_HIMAX8279D) += panel-boe-himax8279d.o
 obj-$(CONFIG_DRM_PANEL_BOE_TV101WUM_NL6) += panel-boe-tv101wum-nl6.o
 obj-$(CONFIG_DRM_PANEL_BOOYI_OTM1287) += panel-booyi-otm1287.o
+obj-$(CONFIG_DRM_PANEL_CMI_NT35532) += panel-cmi-nt35532-5p5xa.o
 obj-$(CONFIG_DRM_PANEL_LVDS) += panel-lvds.o
 obj-$(CONFIG_DRM_PANEL_SIMPLE) += panel-simple.o
 obj-$(CONFIG_DRM_PANEL_ELIDA_KD35T133) += panel-elida-kd35t133.o
