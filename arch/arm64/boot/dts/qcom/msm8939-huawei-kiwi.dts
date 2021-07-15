@@ -9,7 +9,7 @@
 #include <dt-bindings/sound/apq8016-lpass.h>
 
 / {
-	model = "Qualcomm MSM 8939 HUAWEI KIWI";
+	model = "HUAWEI Honor 5X";
 	compatible = "huawei,kiwi", "qcom,msm8939", "qcom,msm8939-qrd-skuk", "qcom,qrd";
 	qcom,msm-id = <239 0>;
 	qcom,board-id =
@@ -277,12 +277,6 @@
 
 &pronto {
 	status = "okay";
-
-	iris {
-		// wcnss: IRIS Reg: 51120004 -> WCN3620A      0x5112
-		// FIXME: should be just 'a'-variant which isn't supported yet
-		compatible = "qcom,wcn3620a", "qcom,wcn3620";
-	};
 };
 
 &sdhc_1 {
