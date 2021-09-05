@@ -111,12 +111,6 @@
 		/delete-node/ rfsa@867e0000;
 		/delete-node/ mba@8ea00000;
 
-		cont_splash_mem: framebuffer@83000000 {
-			compatible = "removed-dma-pool";
-			reg = <0x0 0x83000000 0x0 0x1400000>;
-			no-map;
-		};
-
 		rmtfs@86700000 {
 			compatible = "qcom,rmtfs-mem";
 			reg = <0x0 0x86700000 0x0 0x100000>;
