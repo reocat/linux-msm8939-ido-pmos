@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: GPL-2.0-only
-// Copyright (c) 2020 FIXME
+// Copyright (c) 2021 FIXME
 // Generated with linux-mdss-dsi-panel-driver-generator from vendor device tree:
 //   Copyright (c) 2013, The Linux Foundation. All rights reserved. (FIXME)
 
@@ -289,7 +289,7 @@ static int r63315_remove(struct mipi_dsi_device *dsi)
 }
 
 static const struct of_device_id r63315_of_match[] = {
-	{ .compatible = "mdss,r63315" }, // FIXME
+	{ .compatible = "alcatel,idol3-panel-r63315" },
 	{ /* sentinel */ }
 };
 MODULE_DEVICE_TABLE(of, r63315_of_match);
