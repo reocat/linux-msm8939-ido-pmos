@@ -6,6 +6,7 @@
 #include "pm8916.dtsi"
 #include "arm/qcom-msm8939-no-psci.dtsi"
 #include <dt-bindings/gpio/gpio.h>
+#include <dt-bindings/input/input.h>
 #include <dt-bindings/interrupt-controller/irq.h>
 #include <dt-bindings/leds/common.h>
 
@@ -51,6 +52,19 @@
 		};
 	};
 
+	reg_ts_vdd: regulator-vdd-ts {
+		compatible = "regulator-fixed";
+		regulator-name = "regulator-vdd-ts";
+		regulator-min-microvolt = <2850000>;
+		regulator-max-microvolt = <2850000>;
+
+		gpio = <&msmgpio 78 GPIO_ACTIVE_HIGH>;
+		enable-active-high;
+
+		pinctrl-names = "default";
+		pinctrl-0 = <&ts_vdd_default>;
+	};
+
 	usb_id: usb-id {
 		compatible = "linux,extcon-usb-gpio";
 		id-gpio = <&msmgpio 110 GPIO_ACTIVE_HIGH>;
@@ -92,6 +106,26 @@
 
 		pinctrl-names = "default";
 		pinctrl-0 = <&mag_reset_default>;
+	};
+};
+
+&blsp_i2c5 {
+	status = "okay";
+
+	touchscreen@4a {
+		compatible = "atmel,maxtouch";
+		reg = <0x4a>;
+
+		interrupt-parent = <&msmgpio>;
+		interrupts = <13 IRQ_TYPE_EDGE_FALLING>;
+
+		reset-gpio = <&msmgpio 12 GPIO_ACTIVE_LOW>;
+
+		vdda-supply = <&pm8916_l6>;
+		vdd-supply = <&reg_ts_vdd>;
+
+		pinctrl-names = "default";
+		pinctrl-0 = <&ts_int_reset_default>;
 	};
 };
 
@@ -258,6 +292,22 @@
 
 	mag_reset_default: mag-reset-default {
 		pins = "gpio68";
+		function = "gpio";
+
+		drive-strength = <2>;
+		bias-disable;
+	};
+
+	ts_int_reset_default: ts-int-reset-default {
+		pins = "gpio12", "gpio13";
+		function = "gpio";
+
+		drive-strength = <2>;
+		bias-disable;
+	};
+
+	ts_vdd_default: ts-vdd-default {
+		pins = "gpio78";
 		function = "gpio";
 
 		drive-strength = <2>;
