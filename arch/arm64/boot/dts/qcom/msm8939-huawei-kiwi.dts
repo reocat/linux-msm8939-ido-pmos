@@ -111,6 +111,17 @@
 		/delete-node/ rfsa@867e0000;
 		/delete-node/ mba@8ea00000;
 
+		cont_splash_mem: framebuffer@83000000 {
+			compatible = "removed-dma-pool";
+			reg = <0x0 0x83000000 0x0 0x2000000>;
+			no-map;
+		};
+
+		reserved@85000000 {
+			reg = <0x0 0x85000000 0x0 0x1000000>;
+			no-map;
+		};
+
 		rmtfs@86700000 {
 			compatible = "qcom,rmtfs-mem";
 			reg = <0x0 0x86700000 0x0 0x100000>;
@@ -124,6 +135,11 @@
 			no-map;
 		};
 
+		tz-apps@8c700000 {
+			reg = <0x0 0x8c700000 0x0 0x400000>;
+			no-map;
+		};
+
 		ramoops: ramoops_mem_region@8cb00000 {
 			compatible = "ramoops";
 			reg = <0x0 0x8cb00000 0x0 0x200000>;
@@ -131,7 +147,6 @@
 			record-size = <65536>;
 			console-size = <1048576>;
 			ftrace-size = <0>;
-			pmsg-size = <524288>;
 		};
 
 		venus_mem: venus@8f800000 {
@@ -139,9 +154,14 @@
 			no-map;
 		};
 
+		reserved@f7800000 {
+			reg = <0x0 0xf7800000 0x0 0x8400000>;
+			no-map;
+		};
+
 		mba_mem: mba@ffc00000 {
 			no-map;
-			reg = <0 0xffc00000 0 0x100000>;
+			reg = <0 0xffc00000 0 0x400000>;
 		};
 	};
 
