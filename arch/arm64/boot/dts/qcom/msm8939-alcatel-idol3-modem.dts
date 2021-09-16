@@ -3,6 +3,11 @@
 #include "msm8916-modem.dtsi"
 
 &q6afedai {
+	dai@18 {
+		reg = <SECONDARY_MI2S_RX>;
+		qcom,sd-lines = <1>;
+	};
+
 	dai@22 {
 		reg = <QUATERNARY_MI2S_RX>;
 		qcom,sd-lines = <1>;
@@ -10,14 +15,14 @@
 };
 
 &sound {
-	/delete-node/ dai-link-primary;
+	/delete-node/ dai-link-secondary;
 	/delete-node/ dai-link-tertiary;
 	/delete-node/ dai-link-quaternary;
 
-	dai-link-primary-qdsp6 {
-		link-name = "Primary MI2S";
+	dai-link-secondary-qdsp6 {
+		link-name = "Secondary MI2S";
 		cpu {
-			sound-dai = <&q6afedai PRIMARY_MI2S_RX>;
+			sound-dai = <&q6afedai SECONDARY_MI2S_RX>;
 		};
 
 		platform {
@@ -25,7 +30,7 @@
 		};
 
 		codec {
-			sound-dai = <&lpass_codec 0>, <&wcd_codec 0>;
+			sound-dai = <&headphones>;
 		};
 	};
 
