@@ -129,9 +129,9 @@
 			qcom,client-id = <1>;
 		};
 
-		gps_mem: gps@8b800000 {
+		gps_mem: gps@8c400000 {
 			status = "disabled";
-			reg = <0x0 0x8b800000 0x0 0x200000>;
+			reg = <0x0 0x8c400000 0x0 0x200000>;
 			no-map;
 		};
 
@@ -171,6 +171,10 @@
 		pinctrl-names = "default";
 		pinctrl-0 = <&usb_id_default>;
 	};
+};
+
+&blsp_dma {
+	status = "okay";
 };
 
 &blsp_i2c1 {
