@@ -74,6 +74,10 @@
 
 };
 
+&blsp_dma {
+	status = "okay";
+};
+
 &blsp_i2c3 {
 	status = "okay";
 
