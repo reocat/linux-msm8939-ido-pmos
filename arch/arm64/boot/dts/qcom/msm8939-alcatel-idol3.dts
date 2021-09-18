@@ -124,6 +124,10 @@
 	};
 };
 
+&blsp_dma {
+	status = "okay";
+};
+
 &blsp_i2c2 {
 	status = "okay";
 	magnetometer@c {
