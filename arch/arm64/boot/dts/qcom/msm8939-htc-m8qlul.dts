@@ -40,20 +40,32 @@
 		#size-cells = <2>;
 		ranges;
 
+		/delete-node/ venus@90000000;
+
 		cont_splash_mem: framebuffer@83000000 {
-                        compatible = "removed-dma-pool";
-                        reg = <0x0 0x83200000 0x0 0xfa0000>;
-                        no-map;
-                };
+			compatible = "removed-dma-pool";
+			reg = <0x0 0x83200000 0x0 0xfa0000>;
+			no-map;
+        };
 
 		ramoops: ramoops_mem_region@8cb00000 {
 			compatible = "ramoops";
 			reg = <0x0 0x8cb00000 0x0 0x100000>;
 
 			record-size = <65536>;
-                        console-size = <0x100000>;
-                        ftrace-size = <0>;
-                        pmsg-size = <524288>;
+			console-size = <0x100000>;
+			ftrace-size = <0>;
+			pmsg-size = <524288>;
+		};
+
+		htc_reserve_region@8cbd0000 {
+			reg = <0x00 0x8cbd0000 0x00 0x20000>;
+			no-map;
+		};
+
+		venus_mem: venus@8e800000 {
+			reg = <0x00 0x8e800000 0x00 0x500000>;
+			no-map;
 		};
 	};
 
