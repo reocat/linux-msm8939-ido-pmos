@@ -120,7 +120,7 @@
 		compatible = "linux,extcon-usb-gpio";
 		id-gpio = <&msmgpio 69 GPIO_ACTIVE_HIGH>;
 		pinctrl-names = "default";
-		pinctrl-0 = <&usb_id_default>; //(was commented in 5.12rc4) &usb_id_switch_default>;
+		pinctrl-0 = <&usb_id_default>;
 	};
 };
 
@@ -203,33 +203,39 @@
 		pinctrl-names = "default";
 		pinctrl-0 = <&smb_int_default>;
 
-		/* Set by bootloader */
-		status = "disabled";
-		qcom,otp-rslow-config = /bits/ 8 <0x0 0x0 0x0 0x0>;
+		status = "okay";
 
 		qcom,float-voltage-mv = <4350>;
 		qcom,iterm-ma = <100>;
 		qcom,charging-timeout = <192>;
 		qcom,recharge-thresh-mv = <100>;
 		qcom,chg-inhibit-disabled;
+
+		qcom,battery-profile = <1>; /* downstream forces profile B */
 		qcom,fg-batt-capacity-mah = <2910>;
 		qcom,fg-cc-soc-coeff = <0x81A1>;
-		qcom,fg-iterm-ma = <100>;
 		qcom,fg-cutoff-voltage-mv = <3400>;
 		qcom,fg-cc-to-cv-mv = <4328>;
 		qcom,thermistor-c1-coeff = <0x86C8>;
 		qcom,fg-auto-recharge-soc = <95>; /* 99 in downstream */
 
+		qcom,otp-hard-jeita-config;
+		qcom,otp-hot-bat-decidegc = <550>;
+		qcom,otp-cold-bat-decidegc = <0>;
+
+		qcom,soft-jeita-config;
+		qcom,warm-bat-decidegc = <450>;
+		qcom,cool-bat-decidegc = <100>;
+		qcom,soft-jeita-comp-voltage-mv = <4100>;
+		qcom,soft-jeita-comp-current-ma = <750>;
+
 		qcom,shdn-after-pwroff;
 		qcom,fg-reset-at-pon;
 		qcom,fg-reset-threshold-mv = <200>;
-		qcom,batt-profile-select;
-		qcom,batt-id-vref-uv = <1800000>;
-		qcom,batt-id-rpullup-kohm = <100>;
-		qcom,profile-a-rid-kohm = <33>;
-		qcom,profile-b-rid-kohm = <52>;
-		qcom,otg-batt-curr-limit = <1500>;
-		usb_otg_vbus: usb-otg-vbus {};
+
+		usb_otg_vbus: usb-otg-vbus {
+			regulator-max-microamp = <1500000>;
+		};
 	};
 
 	ncp6335d: ncp6335d-regulator@1c {
@@ -271,19 +277,6 @@
 		pinctrl-0 = <&speaker_bottom_default>;
 		sound-name-prefix = "Speaker Bottom";
 		#sound-dai-cells = <0>;
-	};
-
-	fan53555: fan53555-regulator@60 {
-		status = "disabled";
-		compatible = "fcs,fan53555";
-		reg = <0x60>;
-		pinctrl-names = "default";
-		pinctrl-0 = <&ext_buck_vsel>;
-		regulator-min-microvolt =  <1050000>;
-		regulator-max-microvolt = <1350000>;
-		regulator-ramp-delay = <1250>;
-		regulator-always-on;
-		vsel-gpios = <&msmgpio 111 GPIO_ACTIVE_LOW>;
 	};
 
 	led-controller@68 {
@@ -347,7 +340,6 @@
 		touchscreen-size-y = <1920>;
 	};
 };
-
 
 &dsi0 {
 	pinctrl-names = "default", "sleep";
@@ -495,14 +487,12 @@
 
 &usb {
 	status = "okay";
-	//extcon = <&charger>, <&usb_id>;
-	//vbus-supply = <&usb_otg_vbus>;
-	extcon = <&usb_id>, <&usb_id>;
+	extcon = <&charger>, <&usb_id>;
+	vbus-supply = <&usb_otg_vbus>;
 };
 
 &usb_hs_phy {
-	//extcon = <&charger>;
-	extcon = <&usb_id>;
+	extcon = <&charger>;
 	v1p8-supply = <&pm8916_l7>;
 	v3p3-supply = <&pm8916_l13>;
 };
@@ -619,7 +609,6 @@
 };
 
 &msmgpio {
-	/* TODO: check... */
 	accel_int_default: accel-int-default {
 		pins = "gpio114";
 		function = "gpio";
@@ -670,7 +659,7 @@
 
 		drive-strength = <16>;
 		bias-disable;
-		output-low; //high;
+		output-low;
 	};
 
 	ts_pins: ts_pins {
@@ -767,14 +756,6 @@
 		drive-strength = <8>;
 		bias-pull-up;
         };
-
-	usb_id_switch_default: usb_id_switch_default {
-		pins = "gpio121";
-		function = "gpio";
-
-		drive-strength = <2>;
-		output-high;
-	};
 
 	smb_int_default: smb_int_default {
 		pins = "gpio62";
