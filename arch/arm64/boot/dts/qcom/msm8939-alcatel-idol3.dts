@@ -448,7 +448,7 @@
 &sound {
 	status = "okay";
 
-	qcom,model = "alcatel-idol3";
+	model = "alcatel-idol3";
 	widgets = "Speaker", "Speaker Top", "Speaker", "Speaker Bottom";
 	pin-switches = "Speaker Top", "Speaker Bottom";
 	audio-routing =
