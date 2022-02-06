@@ -4,6 +4,7 @@
 
 #include "msm8939.dtsi"
 #include "pm8916.dtsi"
+#include "msm8916-modem.dtsi"
 
 #include <dt-bindings/gpio/gpio.h>
 #include <dt-bindings/input/input.h>
@@ -47,6 +48,16 @@
 			reg = <0x0 0x86700000 0x0 0xe0000>;
 			no-map;
 			qcom,client-id = <1>;
+		};
+
+		mpss_mem: mpss@86800000 {
+			reg = <0x0 0x86800000 0x0 0x5800000>;
+			no-map;
+		};
+
+		gps_mem: gps@8c000000 {
+			reg = <0x0 0x8c000000 0x0 0x200000>;
+			no-map;
 		};
 
 		/delete-node/ wcnss@8be00000;
@@ -356,8 +367,6 @@
 };
 
 &lpass {
-	status = "okay";
-
 	dai@3 {
 		reg = <MI2S_QUATERNARY>;
 		qcom,playback-sd-lines = <1>;
@@ -378,6 +387,13 @@
 
 	iris {
 		compatible = "qcom,wcn3660b";
+	};
+};
+
+&q6afedai {
+	dai@22 {
+		reg = <QUATERNARY_MI2S_RX>;
+		qcom,sd-lines = <1>;
 	};
 };
 
@@ -408,44 +424,22 @@
 &sound {
 	status = "okay";
 
-	pinctrl-names = "default", "sleep";
-	pinctrl-0 = <&cdc_pdm_lines_act &ext_sec_tlmm_lines_act>;
-	pinctrl-1 = <&cdc_pdm_lines_sus &ext_sec_tlmm_lines_sus>;
-
 	model = "samsung-a2015";
 	audio-routing =
 		"AMIC1", "MIC BIAS External1",
 		"AMIC2", "MIC BIAS Internal2",
 		"AMIC3", "MIC BIAS External1";
 
-	dai-link-primary {
-		link-name = "Primary MI2S";
-		cpu {
-			sound-dai = <&lpass MI2S_PRIMARY>;
-		};
-		codec {
-			sound-dai = <&lpass_codec 0>, <&wcd_codec 0>;
-		};
-	};
+	pinctrl-names = "default", "sleep";
+	pinctrl-0 = <&cdc_pdm_lines_act &ext_sec_tlmm_lines_act>;
+	pinctrl-1 = <&cdc_pdm_lines_sus &ext_sec_tlmm_lines_sus>;
+};
 
-	dai-link-tertiary {
-		link-name = "Tertiary MI2S";
-		cpu {
-			sound-dai = <&lpass MI2S_TERTIARY>;
-		};
-		codec {
-			sound-dai = <&lpass_codec 1>, <&wcd_codec 1>;
-		};
-	};
+&sound_dai_quaternary {
+	status = "okay";
 
-	dai-link-quaternary {
-		link-name = "Quaternary MI2S";
-		cpu {
-			sound-dai = <&lpass MI2S_QUATERNARY>;
-		};
-		codec {
-			sound-dai = <&speaker_codec>;
-		};
+	codec {
+		sound-dai = <&speaker_codec>;
 	};
 };
 
