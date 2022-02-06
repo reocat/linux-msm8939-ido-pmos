@@ -36,6 +36,25 @@
 			no-map;
 		};
 
+		reserved@86680000 {
+			reg = <0x0 0x86680000 0x0 0x80000>;
+			no-map;
+		};
+
+		/delete-node/ rmtfs@86681000;
+		rmtfs@86700000 {
+			compatible = "qcom,rmtfs-mem";
+			reg = <0x0 0x86700000 0x0 0xe0000>;
+			no-map;
+			qcom,client-id = <1>;
+		};
+
+		/delete-node/ wcnss@8be00000;
+		wcnss_mem: wcnss@8df00000 {
+			reg = <0x0 0x8df00000 0x0 0x600000>;
+			no-map;
+		};
+
 		/delete-node/ venus@90000000;
 		venus_mem: venus@8c400000 {
 			reg = <0x0 0x8c400000 0x0 0x600000>;
