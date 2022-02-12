@@ -869,7 +869,7 @@ static int cmi_nt35532_5p5xa_remove(struct mipi_dsi_device *dsi)
 }
 
 static const struct of_device_id cmi_nt35532_5p5xa_of_match[] = {
-	{ .compatible = "cmi,nt35532-5p5xa" },
+	{ .compatible = "huawei,cmi-nt35532-5p5xa" },
 	{ /* sentinel */ }
 };
 MODULE_DEVICE_TABLE(of, cmi_nt35532_5p5xa_of_match);
