@@ -381,7 +381,7 @@
 	};
 };
 
-&dsi_phy0 {
+&dsi0_phy {
 	qcom,dsi-phy-regulator-ldo-mode;
 };
 
@@ -485,7 +485,7 @@
 	};
 };
 
-&usb {
+&otg {
 	status = "okay";
 	extcon = <&charger>, <&usb_id>;
 	vbus-supply = <&usb_otg_vbus>;
