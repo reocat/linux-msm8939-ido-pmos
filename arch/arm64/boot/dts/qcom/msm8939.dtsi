@@ -19,6 +19,7 @@
 #include <dt-bindings/power/qcom-rpmpd.h>
 #include <dt-bindings/reset/qcom,gcc-msm8939.h>
 #include <dt-bindings/soc/qcom,apr.h>
+#include <dt-bindings/soc/qcom,memshare.h>
 #include <dt-bindings/thermal/thermal.h>
 
 / {
@@ -427,6 +428,28 @@
 
 		opp-49800 {
 			opp-hz = /bits/ 64 <49800>; /*  398.4 MHz */
+		};
+	};
+
+	memshare: memshare {
+		compatible = "qcom,memshare";
+		qcom,legacy-client = <&memshare_gps>;
+
+		status = "disabled";
+
+		#address-cells = <1>;
+		#size-cells = <0>;
+
+		mpss@0 {
+			reg = <MEMSHARE_PROC_MPSS_V01>;
+			qcom,qrtr-node = <0>;
+
+			#address-cells = <1>;
+			#size-cells = <0>;
+
+			memshare_gps: gps@0 {
+				reg = <0>;
+			};
 		};
 	};
 
