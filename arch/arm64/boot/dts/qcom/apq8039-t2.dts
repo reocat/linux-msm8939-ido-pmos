@@ -96,6 +96,7 @@
 	};
 
 	soc {
+		/delete-node/ sound@7702000;
                 sound: sound {
                         compatible = "qcom,apq8039-sndcard";
                         reg = <0x07702000 0x4>, <0x07702004 0x4>;
