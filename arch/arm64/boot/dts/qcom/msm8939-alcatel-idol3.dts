@@ -381,7 +381,12 @@
 	};
 };
 
+&dsi0 {
+	status = "okay";
+};
+
 &dsi0_phy {
+	status = "okay";
 	qcom,dsi-phy-regulator-ldo-mode;
 };
 
