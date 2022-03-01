@@ -276,7 +276,7 @@
 	remote-endpoint = <&panel_in>;
 };
 
-&dsi_phy0 {
+&dsi0_phy {
 	qcom,dsi-phy-regulator-ldo-mode;
 };
 
@@ -376,7 +376,7 @@
 	};
 };
 
-&usb {
+&otg {
 	status = "okay";
 	extcon = <&usb_id>, <&usb_id>;
 };
