@@ -404,28 +404,34 @@
 		compatible = "operating-points-v2";
 		opp-shared;
 
-		opp-12500 {
-			opp-hz = /bits/ 64 <12500>; /* 100MHz */
+		opp-99942400 {
+			opp-hz = /bits/ 64 <99942400>;
+			opp-peak-kBps = <1561600>;
 		};
 
-		opp-21600 {
-			opp-hz = /bits/ 64 <21600>; /*  172.8 MHz */
+		opp-172752896 {
+			opp-hz = /bits/ 64 <172752896>;
+			opp-peak-kBps = <2699264>;
 		};
 
-		opp-32400 {
-			opp-hz = /bits/ 64 <32400>; /*  259.2 MHz */
+		opp-259194880 {
+			opp-hz = /bits/ 64 <259194880>;
+			opp-peak-kBps = <4049920>;
 		};
 
-		opp-43800 {
-			opp-hz = /bits/ 64 <43800>; /*  350.4 MHz */
+		opp-350355456 {
+			opp-hz = /bits/ 64 <350355456>;
+			opp-peak-kBps = <5474304>;
 		};
 
-		opp-46800 {
-			opp-hz = /bits/ 64 <46800>; /*  374.4 MHz */
+		opp-374341632 {
+			opp-hz = /bits/ 64 <374341632>;
+			opp-peak-kBps = <5849088>;
 		};
 
-		opp-49800 {
-			opp-hz = /bits/ 64 <49800>; /*  398.4 MHz */
+		opp-398393344 {
+			opp-hz = /bits/ 64 <398393344>;
+			opp-peak-kBps = <6224896>;
 		};
 	};
 
