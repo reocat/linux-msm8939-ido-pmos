@@ -685,15 +685,6 @@
 			interconnects = <&bimc MASTER_AMPSS_M0 &bimc SLAVE_EBI_CH0>;
 		};
 
-		mincpubw: qcom,mincpubw {
-			label = "mincpubw";
-			compatible = "qcom,devbw";
-			governor = "powersave";
-			operating-points-v2 = <&cpu_bw_table>;
-			interconnect-names = "mem";
-			interconnects = <&bimc MASTER_AMPSS_M0 &bimc SLAVE_EBI_CH0>;
-		};
-
 		devfreq-cpufreq {
 			cpubw-cpufreq {
 				target-dev = <&cpubw>;
@@ -715,28 +706,6 @@
 					<  800000 43800 >,
 					<  998400 49800 >,
 					< 1113600 49800 >;
-			};
-
-			mincpubw-cpufreq {
-				target-dev = <&mincpubw>;
-				cpu-to-dev-map-0 =
-					<  200000  21600 >,
-					<  345600  21600 >,
-					<  400000  21600 >,
-					<  800000  21600 >,
-					<  960000  21600 >,
-					<  1113600 21600 >,
-					<  1344000 43800 >,
-					<  1497600 43800 >,
-					<  1612800 43800 >,
-					<  1651200 43800 >;
-				cpu-to-dev-map-4 =
-					<  200000 21600 >,
-					<  249600 21600 >,
-					<  499200 21600 >,
-					<  800000 21600 >,
-					<  998400 43800 >,
-					< 1113600 43800 >;
 			};
 
 			cci-cpufreq {
