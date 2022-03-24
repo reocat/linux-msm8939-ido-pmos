@@ -33,65 +33,47 @@
 
 struct dev_data {
 	struct icc_path *path;
-	int cur_ib;
 	unsigned int ab_percent;
+	unsigned long curr_freq;
 	struct devfreq *df;
 	struct devfreq_dev_profile dp;
+	struct opp_table *opp_table;
+	struct mutex lock;
 };
-
-static int set_bw(struct device *dev, int new_ib)
-{
-	struct dev_data *d = dev_get_drvdata(dev);
-	int ret;
-
-	if (d->cur_ib == new_ib)
-		return 0;
-
-	dev_dbg(dev, "BW MBps: %d\n", Mbps_to_icc(new_ib));
-
-	ret = icc_set_bw(d->path, Mbps_to_icc(new_ib/2), Mbps_to_icc(new_ib));
-	if (ret)
-		dev_err(dev, "Fail to set interconnect bandwidth (%d)\n", ret);
-	else
-		d->cur_ib = new_ib;
-
-	return ret;
-}
-
-static void find_freq(struct devfreq_dev_profile *p, unsigned long *freq,
-			u32 flags)
-{
-	int i;
-	unsigned long atmost, atleast, f;
-
-	atmost = p->freq_table[0];
-	atleast = p->freq_table[p->max_state-1];
-	for (i = 0; i < p->max_state; i++) {
-		f = p->freq_table[i];
-		if (f <= *freq)
-			atmost = max(f, atmost);
-		if (f >= *freq)
-			atleast = min(f, atleast);
-	}
-
-	if (flags & DEVFREQ_FLAG_LEAST_UPPER_BOUND)
-		*freq = atmost;
-	else
-		*freq = atleast;
-}
 
 static int devbw_target(struct device *dev, unsigned long *freq, u32 flags)
 {
 	struct dev_data *d = dev_get_drvdata(dev);
+	struct dev_pm_opp *opp;
+	int ret = 0;
 
-	find_freq(&d->dp, freq, flags);
+	/* Get correct frequency for d. */
+	opp = devfreq_recommended_opp(dev, freq, flags);
+	if (IS_ERR(opp)) {
+		dev_err(dev, "failed to get recommended opp instance\n");
+		return PTR_ERR(opp);
+	}
 
-	return set_bw(dev, *freq);
+	/* Change voltage and frequency according to new OPP level */
+	mutex_lock(&d->lock);
+        ret = dev_pm_opp_set_opp(dev, opp);
+        dev_pm_opp_put(opp);
+	if (!ret)
+		d->curr_freq = *freq;
+
+	mutex_unlock(&d->lock);
+
+	return ret;
+
 }
 
 static int devbw_get_dev_status(struct device *dev,
 				struct devfreq_dev_status *stat)
 {
+	struct dev_data *d = dev_get_drvdata(dev);
+
+	stat->current_frequency = d->curr_freq;
+
 	return 0;
 }
 
@@ -99,14 +81,14 @@ static int devfreq_add_devbw(struct device *dev)
 {
 	struct dev_data *d;
 	struct devfreq_dev_profile *p;
-	const char *gov_name;
+	const char *gov_name = DEVFREQ_GOV_USERSPACE;
 	int ret;
 
 	d = devm_kzalloc(dev, sizeof(*d), GFP_KERNEL);
 	if (!d)
 		return -ENOMEM;
 
-	dev_set_drvdata(dev, d);
+	mutex_init(&d->lock);
 
 	p = &d->dp;
 	p->polling_ms = 50;
@@ -120,15 +102,14 @@ static int devfreq_add_devbw(struct device *dev)
 		goto devbw_exit;
 	}
 
-	/* Get the freq from OPP table to scale the bus freq */
+	dev_set_drvdata(dev, d);
+
+	/* Get the freq from OPP table to scale the d freq */
 	ret = dev_pm_opp_of_add_table(dev);
 	if (ret < 0) {
 		dev_err(dev, "failed to get OPP table\n");
 		goto path_exit;
 	}
-
-	if (of_property_read_string(dev->of_node, "governor", &gov_name))
-		gov_name = "performance";
 
 	d->df = devm_devfreq_add_device(dev, p, gov_name, NULL);
 	if (IS_ERR(d->df)) {
@@ -141,7 +122,6 @@ static int devfreq_add_devbw(struct device *dev)
 path_exit:
 	icc_put(d->path);
 devbw_exit:
-	devm_kfree(dev, d);
 	return ret;
 }
 
