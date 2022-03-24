@@ -279,27 +279,27 @@
 
 		opp-249600000 {
 			opp-hz = /bits/ 64 <249600000>;
-			required-opps = <&cpr_opp1>;
+			required-opps = <&cpr_opp1>, <&cpu_bw_opp2>;
 		};
 
 		opp-499200000 {
 			opp-hz = /bits/ 64 <499200000>;
-			required-opps = <&cpr_opp2>;
+			required-opps = <&cpr_opp2>, <&cpu_bw_opp3>;
 		};
 
 		opp-800000000 {
 			opp-hz = /bits/ 64 <800000000>;
-			required-opps = <&cpr_opp2>;
+			required-opps = <&cpr_opp2>, <&cpu_bw_opp4>;
 		};
 
 		opp-998400000 {
 			opp-hz = /bits/ 64 <998400000>;
-			required-opps = <&cpr_opp2>;
+			required-opps = <&cpr_opp2>, <&cpu_bw_opp5>;
 		};
 
 		opp-1113600000 {
 			opp-hz = /bits/ 64 <1113600000>;
-			required-opps = <&cpr_opp3>;
+			required-opps = <&cpr_opp3>, <&cpu_bw_opp6>;
 		};
 	};
 
@@ -309,32 +309,32 @@
 
 		opp-200000000 {
 			opp-hz = /bits/ 64 <200000000>;
-			required-opps = <&cpr_opp1>;
+			required-opps = <&cpr_opp1>, <&cpu_bw_opp1>;
 		};
 
 		opp-400000000 {
 			opp-hz = /bits/ 64 <400000000>;
-			required-opps = <&cpr_opp1>;
+			required-opps = <&cpr_opp1>, <&cpu_bw_opp2>;
 		};
 
 		opp-533330000 {
 			opp-hz = /bits/ 64 <533330000>;
-			required-opps = <&cpr_opp2>;
+			required-opps = <&cpr_opp2>, <&cpu_bw_opp3>;
 		};
 
 		opp-800000000 {
 			opp-hz = /bits/ 64 <800000000>;
-			required-opps = <&cpr_opp2>;
+			required-opps = <&cpr_opp2>, <&cpu_bw_opp4>;
 		};
 
 		opp-1113600000 {
 			opp-hz = /bits/ 64 <1113600000>;
-			required-opps = <&cpr_opp2>;
+			required-opps = <&cpr_opp2>, <&cpu_bw_opp5>;
 		};
 
 		opp-1497600000 {
 			opp-hz = /bits/ 64 <1497600000>;
-			required-opps = <&cpr_opp3>;
+			required-opps = <&cpr_opp3>, <&cpu_bw_opp6>;
 		};
 	};
 
@@ -404,32 +404,32 @@
 		compatible = "operating-points-v2";
 		opp-shared;
 
-		opp-99942400 {
+		cpu_bw_opp1: opp-99940000 {
 			opp-hz = /bits/ 64 <99942400>;
 			opp-peak-kBps = <1561600>;
 		};
 
-		opp-172752896 {
+		cpu_bw_opp2: opp-172700000 {
 			opp-hz = /bits/ 64 <172752896>;
 			opp-peak-kBps = <2699264>;
 		};
 
-		opp-259194880 {
+		cpu_bw_opp3: opp-259200000 {
 			opp-hz = /bits/ 64 <259194880>;
 			opp-peak-kBps = <4049920>;
 		};
 
-		opp-350355456 {
+		cpu_bw_opp4: opp-350400000 {
 			opp-hz = /bits/ 64 <350355456>;
 			opp-peak-kBps = <5474304>;
 		};
 
-		opp-374341632 {
+		cpu_bw_opp5: opp-374300000 {
 			opp-hz = /bits/ 64 <374341632>;
 			opp-peak-kBps = <5849088>;
 		};
 
-		opp-398393344 {
+		cpu_bw_opp6: opp-398400000 {
 			opp-hz = /bits/ 64 <398393344>;
 			opp-peak-kBps = <6224896>;
 		};
