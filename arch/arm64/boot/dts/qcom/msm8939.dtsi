@@ -576,7 +576,7 @@
 			thermal-sensors = <&tsens 2>;
 		};
 
-		venus_camera-thermal {
+		venus_cam-thermal {
 			polling-delay-passive = <0>;
 			polling-delay = <0>;
 
