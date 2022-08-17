@@ -25,3 +25,4 @@ obj-$(CONFIG_DRM_PANEL_MSM8916_GENERATED) += panel-wingtech-sharp-r69431.o
 obj-$(CONFIG_DRM_PANEL_MSM8916_GENERATED) += panel-wingtech-tianma-hx8394d.o
 obj-$(CONFIG_DRM_PANEL_MSM8916_GENERATED) += panel-wingtech-yassy-ili9881.o
 obj-$(CONFIG_DRM_PANEL_MSM8916_GENERATED) += panel-xiaomi-ili9881c-tianma.o
+obj-$(CONFIG_DRM_PANEL_MSM8916_GENERATED) += panel-xiaomi-hx8394f-boe.o
