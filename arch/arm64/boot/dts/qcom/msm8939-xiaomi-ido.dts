@@ -86,7 +86,7 @@
 		compatible = "pwm-backlight";
 		pwms = <&pm8916_pwm 0 100000>;
 
-		brightness-levels = <1 255>;
+		brightness-levels = <0 255>;
 		num-interpolated-steps = <255>;
 		default-brightness-level = <255>;
 	};
@@ -95,7 +95,7 @@
 &blsp1_uart2 {
 	status = "okay";
 };
-/*
+
 &blsp_i2c2 {
 	status = "okay";
 
@@ -123,22 +123,45 @@
 		};
 	};
 };
+/*
+&blsp_i2c4 {
+        #address-cells = <1>;
+        #size-cells = <0>;
+
+        cw2015@62 {
+            compatible = "cellwise,cw2015";
+            reg = <0x62>;
+            cellwise,battery-profile = /bits/ 8 <
+                0x17 0x67 0x80 0x73 0x6E 0x6C 0x6B 0x63
+                0x77 0x51 0x5C 0x58 0x50 0x4C 0x48 0x36
+                0x15 0x0C 0x0C 0x19 0x5B 0x7D 0x6F 0x69
+                0x69 0x5B 0x0C 0x29 0x20 0x40 0x52 0x59
+                0x57 0x56 0x54 0x4F 0x3B 0x1F 0x7F 0x17
+                0x06 0x1A 0x30 0x5A 0x85 0x93 0x96 0x2D
+                0x48 0x77 0x9C 0xB3 0x80 0x52 0x94 0xCB
+                0x2F 0x00 0x64 0xA5 0xB5 0x11 0xF0 0x11
+           >;
+           cellwise,monitor-interval-ms = <5000>;
+           monitored-battery = <&bat>;
+           //power-supplies = <&mains_charger>, <&usb_charger>;
+       };
+    };
 */
 &blsp_i2c5 {
 	status = "okay";
 
 	touchscreen@3e {
-		/* Likely some other model but works just fine with this one */
+		/* actually FT5336 */
 		compatible = "edt,edt-ft5306";
 		reg = <0x3e>;
 
 		interrupt-parent = <&msmgpio>;
 		interrupts = <13 0x2008>;
 
-		reset-gpios = <&msmgpio 12 GPIO_ACTIVE_LOW>;
-
 		vcc-supply = <&pm8916_l17>;
 		iovcc-supply = <&pm8916_l6>;
+
+		reset-gpios = <&msmgpio 12 GPIO_ACTIVE_LOW>;
 
 		touchscreen-size-x = <720>;
 		touchscreen-size-y = <1280>;
@@ -157,7 +180,7 @@
 		#address-cells = <1>;
 		#size-cells = <0>;
 
-		vcc-supply = <&pm8916_l16>;
+		vcc-supply = <&pm8916_l17>;
 
 		led@0 {
 			reg = <0>;
@@ -191,8 +214,8 @@
 		compatible = "xiaomi,ido-panel";
 		reg = <0>;
 
-//        vsp-supply = <&reg_lcd_pos>;
-//		vsn-supply = <&reg_lcd_neg>;
+        vsp-supply = <&reg_lcd_pos>;
+		vsn-supply = <&reg_lcd_neg>;
 
 		backlight = <&backlight>;
 		reset-gpios = <&msmgpio 25 GPIO_ACTIVE_LOW>;
@@ -396,14 +419,6 @@
 		bias-pull-up;
 	};
 
-    tps65132_en_default: tps65132-en-default {
-		pins = "gpio97", "gpio98";
-		function = "gpio";
-
-		drive-strength = <2>;
-		bias-pull-down;
-	};
-
     mdss {
 		mdss_default: mdss-default {
 			pins = "gpio25";
@@ -437,6 +452,13 @@
 		};
 	};
 
+    tps65132_en_default: tps65132-en-default {
+		pins = "gpio97", "gpio98";
+		function = "gpio";
+
+		drive-strength = <2>;
+		bias-pull-down;
+	};
 };
 
 &pm8916_mpps {
