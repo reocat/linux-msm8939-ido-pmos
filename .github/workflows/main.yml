@@ -12,8 +12,10 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v2
     - name: clone & build
       run: |
+           git clone https://github.com/reocat/linux-msm8989-ido-pmos
+           cd linux-msm8939-ido-pmos
            chmod 777 clone.sh
            bash clone.sh
