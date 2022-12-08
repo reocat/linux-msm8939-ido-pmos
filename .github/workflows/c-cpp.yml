@@ -17,7 +17,3 @@ jobs:
       run: |
            chmod 777 clone.sh
            bash clone.sh
-    - uses: actions/checkout@v2
-    - uses: ncipollo/release-action@v1
-      with:
-        artifacts: "*tar.gz"
