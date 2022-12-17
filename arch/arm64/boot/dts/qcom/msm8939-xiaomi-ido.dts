@@ -205,7 +205,7 @@
 	};
 };
 
-&dsi0 {
+&mdss_dsi0  {
     pinctrl-names = "default", "sleep";
 	pinctrl-0 = <&mdss_default>;
 	pinctrl-1 = <&mdss_sleep>;
@@ -233,7 +233,7 @@
 	remote-endpoint = <&panel_in>;
 };
 
-&dsi_phy0 {
+&mdss_dsi0_phy {
 	qcom,dsi-phy-regulator-ldo-mode;
 };
 
@@ -262,9 +262,13 @@
 	status = "okay";
 };
 
-&pronto {
+&remoteproc_pronto {
 	status = "okay";
+	iris {
+		compatible = "qcom,wcn3620";
+	};
 };
+
 
 &sdhc_1 {
 	status = "okay";
