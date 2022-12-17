@@ -41,7 +41,7 @@ jobs:
         make -j16 ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu-
         cd ..
         tar -czvf kernel.tar.gz linux-msm8939-ido-pmos
-        split -b 1000M kernel.tar.gz "kernel.tgz.part"
+        split -b 100M kernel.tar.gz "kernel.tgz.part"
       id: pwd
 
     - name: Upload to Telegram
