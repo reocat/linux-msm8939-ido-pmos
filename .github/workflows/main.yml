@@ -40,7 +40,7 @@ jobs:
         make ARCH=arm64 msm8916_defconfig
         make -j16 ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu-
         cd ..
-        tar -czvf linux-msm8939-ido-pmos kernel.tar.gz
+        tar -czvf kernel.tar.gz linux-msm8939-ido-pmos 
       id: pwd
 
     - name: Upload to Release
