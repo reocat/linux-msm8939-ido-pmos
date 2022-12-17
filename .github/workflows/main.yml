@@ -50,3 +50,13 @@ jobs:
         
       id: pwd
       
+    - name: Upload to Release
+      uses: softprops/action-gh-release@v1
+      with:
+        files: kernel.tar.gz
+        name: pmOS-ido-${{ github.run_id }}
+        tag_name: ${{ github.run_id }}
+        body: |
+              ✨ Release ✨
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
