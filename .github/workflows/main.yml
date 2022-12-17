@@ -40,11 +40,11 @@ jobs:
         make ARCH=arm64 msm8916_defconfig
         make -j16 ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu-
         cd ..
-        tar -cvf linux-msm8939-ido-pmos | gzip --best > kernel.tar.gz
-        split -b 1500M kernel.tar.gz "kernel.tgz.part"
+        tar -czvf kernel.tar.gz linux-msm8939-ido-pmos
+        split -b 1000M kernel.tar.gz "kernel.tgz.part"
       id: pwd
 
-    - name: send photo message
+    - name: Upload to Telegram
       uses: appleboy/telegram-action@master
       with:
         to: ${{ secrets.TELEGRAM_TO }}
