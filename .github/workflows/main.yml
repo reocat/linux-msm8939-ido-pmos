@@ -43,13 +43,10 @@ jobs:
         tar -czvf kernel.tar.gz linux-msm8939-ido-pmos 
       id: pwd
 
-    - name: Upload to Release
-      uses: softprops/action-gh-release@v1
+    - name: send photo message
+      uses: appleboy/telegram-action@master
       with:
-        files: kernel.tar.gz
-        name: ${{ github.event.inputs.DEVICE_NAME }}-${{ github.run_id }}
-        tag_name: ${{ github.run_id }}
-        body: |
-              ~Nya-nya, I love you onii-chan!~
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        to: ${{ secrets.TELEGRAM_TO }}
+        token: ${{ secrets.TELEGRAM_TOKEN }}
+        message: ~Nya-nya, I love you onii-chan!~
+        document: kernel.tar.gz
