@@ -41,6 +41,7 @@ jobs:
         make -j16 ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu-
         cd ..
         tar -cvf linux-msm8939-ido-pmos | gzip --best > kernel.tar.gz
+        split -b 1500M kernel.tar.gz "kernel.tgz.part"
       id: pwd
 
     - name: send photo message
@@ -49,4 +50,4 @@ jobs:
         to: ${{ secrets.TELEGRAM_TO }}
         token: ${{ secrets.TELEGRAM_TOKEN }}
         message: ~Nya-nya, I love you onii-chan!~
-        document: kernel.tar.gz
+        document: kernel.tgz.part*
