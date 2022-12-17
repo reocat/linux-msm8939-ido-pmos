@@ -44,8 +44,9 @@ jobs:
         find linux-msm8939-ido-pmos -type d -exec mkdir -p "./release/{}" \
         find linux-msm8939-ido-pmos -name '*.ko' -exec cp --parents \{\} ./release \;
         cp linux-msm8939-ido-pmos/modul* release
-        cp linux-msm8939-ido-pmos/arch/arm64/* release
-        tar -czvf kernel.tar.gz linux-msm8939-ido-pmos
+        cp linux-msm8939-ido-pmos/arch/arm64/boot/*mag* release
+        cp linux-msm8939-ido-pmos/arch/arm64/boot/dts/qcom/msm8939-xiaomi-ido.dtb release
+        tar -czvf kernel.tar.gz release
         
       id: pwd
       
