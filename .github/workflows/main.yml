@@ -1,21 +1,70 @@
-name: C/C++ CI
+name: Recovery Build
 
 on:
-  push:
-    branches: [ "v6.0-rc7-msm8916+msm8939" ]
-  pull_request:
-    branches: [ "v6.0-rc7-msm8916+msm8939" ]
-
+  workflow_dispatch:
+    inputs:
+      PLACEHOLDER:
+        description: 'idk'
+        required: true
+        default: ''
 jobs:
   build:
-
-    runs-on: ubuntu-latest
-
+    if: github.event.repository.owner.id == github.event.sender.id
+    runs-on: ubuntu-20.04
+    # You can use either of the ubuntu-18.04 or ubuntu-20.04 runner
     steps:
-    - uses: actions/checkout@v2
-    - name: clone & build
+
+    # You might want to Checkout your repo first, but not mandatory
+    - name: Check Out
+      uses: actions/checkout@v3
+    # Cleanup The Actions Workspace Using Custom Composite Run Actions
+    - name: Cleanup
+      uses: rokibhasansagar/slimhub_actions@main
+      # That's it! Now use your normal steps
+
+    - name: Prepare the environment
       run: |
-           git clone https://github.com/reocat/linux-msm8989-ido-pmos
-           cd linux-msm8939-ido-pmos
-           chmod 777 clone.sh
-           bash clone.sh
+        sudo apt update
+        sudo apt -y upgrade
+        sudo apt -y install make perl gcc-10-aarch64-linux-gnu libncurses5 gperf gcc-multilib gcc-10-multilib g++-multilib g++-10-multilib libc6-dev lib32ncurses5-dev x11proto-core-dev libx11-dev tree lib32z-dev libgl1-mesa-dev libxml2-utils xsltproc bc ccache lib32readline-dev lib32z1-dev liblz4-tool libncurses5-dev libsdl1.2-dev libxml2 lzop pngcrush schedtool squashfs-tools imagemagick libbz2-dev lzma ncftp qemu-user-static libstdc++-10-dev python
+        sudo apt -y install bc bison build-essential ccache curl flex g++-multilib gcc-multilib git gnupg gperf imagemagick lib32ncurses5-dev lib32readline-dev lib32z1-dev libelf-dev liblz4-tool libncurses5 libncurses5-dev libsdl1.2-dev libssl-dev libxml2 libxml2-utils lzop pngcrush rsync schedtool squashfs-tools xsltproc zip zlib1g-dev
+    - name: Install OpenJDK
+      uses: actions/setup-java@v3
+      with:
+        distribution: 'zulu'
+        java-version: '8'
+
+    - name: Setup SSH Keys
+      if: ${{ startsWith(github.event.inputs.MANIFEST_URL, 'git@github.com') }}
+      uses: webfactory/ssh-agent@v0.5.4
+      with:
+          ssh-private-key: |
+              ${{ secrets.SSH_PRIVATE_KEY }}
+      
+      - name: Set Swap Space
+      uses: pierotofy/set-swap-space@master
+      with:
+        swap-size-gb: 12
+        
+    - name: Some actions
+      run: |
+        git config --global user.name "reocat"
+        git config --global user.email "ng.ct_ml@tuta.io"
+        git clone https://github.com/reocat/linux-msm8939-ido-pmos 
+        cd linux-msm8939-ido-pmos
+        make msm8916_defconfig
+        make -j16 ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu-
+        cd ..
+        tar -czvf linux-msm8939-ido-pmos kernel.tar.gz
+      id: pwd
+
+    - name: Upload to Release
+      uses: softprops/action-gh-release@v1
+      with:
+        files: kernel.tar.gz
+        name: ${{ github.event.inputs.DEVICE_NAME }}-${{ github.run_id }}
+        tag_name: ${{ github.run_id }}
+        body: |
+              ~Nya-nya, I love you onii-chan!~
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
