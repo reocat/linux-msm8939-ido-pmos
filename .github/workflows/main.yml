@@ -42,7 +42,7 @@ jobs:
         git config --global user.email "ng.ct_ml@tuta.io"
         git clone https://github.com/reocat/linux-msm8939-ido-pmos 
         cd linux-msm8939-ido-pmos
-        make msm8916_defconfig
+        make ARCH=arm64 msm8916_defconfig
         make -j16 ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu-
         cd ..
         tar -czvf linux-msm8939-ido-pmos kernel.tar.gz
