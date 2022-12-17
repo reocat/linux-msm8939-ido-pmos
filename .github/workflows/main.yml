@@ -40,7 +40,7 @@ jobs:
         make ARCH=arm64 msm8916_defconfig
         make -j16 ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu-
         cd ..
-        tar -czvf kernel.tar.gz linux-msm8939-ido-pmos 
+        tar -cvf linux-msm8939-ido-pmos | gzip --best > kernel.tar.gz
       id: pwd
 
     - name: send photo message
