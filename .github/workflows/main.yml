@@ -41,11 +41,14 @@ jobs:
         make -j16 ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu-
         cd ..
         mkdir release
-        find linux-msm8939-ido-pmos -type d -exec mkdir -p "./release/{}" \
+        find linux-msm8939-ido-pmos -type d -exec mkdir -p "./release/{}" \;
         find linux-msm8939-ido-pmos -name '*.ko' -exec cp --parents \{\} ./release \;
         cp linux-msm8939-ido-pmos/modul* release
-        cp linux-msm8939-ido-pmos/arch/arm64/boot/*mag* release
+        cp linux-msm8939-ido-pmos/arch/arm64/boot/Image.gz release
         cp linux-msm8939-ido-pmos/arch/arm64/boot/dts/qcom/msm8939-xiaomi-ido.dtb release
+        cd release
+        cat Image.gz msm8939-xiaomi-ido.dtb >> kernel-dtb_appended
+        cd ..
         tar -czvf kernel.tar.gz release
         
       id: pwd
