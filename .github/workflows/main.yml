@@ -37,7 +37,8 @@ jobs:
         git config --global user.email "ng.ct_ml@tuta.io"
         git clone https://github.com/reocat/linux-msm8939-ido-pmos 
         cd linux-msm8939-ido-pmos
-        make ARCH=arm64 msm8916_defconfig
+        wget https://gitlab.com/postmarketOS/pmaports/-/raw/master/device/testing/linux-postmarketos-qcom-msm8939/config-postmarketos-qcom-msm8939.aarch64
+        cp config-postmarketos-qcom-msm8939.aarch64 .config
         make -j16 ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu-
         cd ..
         mkdir release
