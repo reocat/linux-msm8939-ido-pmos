@@ -46,7 +46,7 @@ jobs:
         cp linux-msm8939-ido-pmos/modul* release
         cp linux-msm8939-ido-pmos/arch/arm64/boot/Image.gz release
         cp linux-msm8939-ido-pmos/arch/arm64/boot/dts/qcom/msm8939-xiaomi-ido.dtb release
-        cp linux-msm8939-ido-pmos/mSystem.map release
+        cp linux-msm8939-ido-pmos/*ystem.map* release
         cd release
         cat Image.gz msm8939-xiaomi-ido.dtb >> kernel-dtb_appended
         cd ..
